@@ -3,88 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>موسوعة الأعطال - 6000 جنيه</title>
+    <title>موسوعة الدراجة الكهربائية الشاملة</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
-        body { font-family: 'Cairo', sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; min-height: 100vh; margin: 0; padding-top: 20px; }
-        .container { width: 90%; max-width: 600px; background: white; padding: 25px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; height: fit-content; }
-        .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; cursor: pointer; font-size: 18px; font-weight: bold; transition: 0.3s; margin-top: 15px; text-decoration: none; display: block; }
+        body { font-family: 'Cairo', sans-serif; background: #f0f4f8; margin: 0; padding: 20px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 650px; background: white; padding: 25px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+        
+        /* شاشة التفعيل */
+        .activation-card { text-align: center; }
+        .device-id { font-size: 28px; color: #e74c3c; background: #fff5f5; padding: 15px; border-radius: 15px; border: 2px dashed #e74c3c; display: inline-block; margin: 15px 0; font-weight: bold; }
+        input[type="number"], input[type="text"] { width: 100%; padding: 15px; margin: 10px 0; border: 2px solid #eee; border-radius: 12px; text-align: center; font-size: 18px; box-sizing: border-box; }
+        
+        /* الأزرار */
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; cursor: pointer; font-size: 18px; font-weight: bold; transition: 0.3s; margin-top: 10px; display: block; text-decoration: none; text-align: center; }
         .btn-activate { background: #27ae60; color: white; }
         .btn-whatsapp { background: #25D366; color: white; }
-        .device-id { font-size: 24px; color: #e74c3c; background: #fff5f5; padding: 10px; border-radius: 10px; border: 2px dashed #e74c3c; display: inline-block; margin: 10px 0; }
-        input { width: 100%; padding: 15px; margin: 10px 0; border: 2px solid #eee; border-radius: 12px; text-align: center; font-size: 18px; box-sizing: border-box; }
-        #app-content { display: none; text-align: right; }
-        .fault-card { background: #f9f9f9; padding: 15px; border-right: 5px solid #3498db; margin-bottom: 15px; border-radius: 8px; }
-        .solution { color: #27ae60; display: block; margin-top: 8px; font-weight: bold; border-top: 1px solid #eee; padding-top: 5px; }
-        .scroll-area { max-height: 500px; overflow-y: auto; margin-top: 20px; padding-left: 5px; }
+        
+        /* محتوى الموسوعة */
+        #app-content { display: none; }
+        .section-tab { background: #2980b9; color: white; padding: 12px; border-radius: 10px; margin-top: 25px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+        .fault-item { background: #fdfdfd; border: 1px solid #edf2f7; padding: 15px; margin-top: 10px; border-radius: 12px; border-right: 5px solid #3498db; }
+        .solution-text { color: #2ecc71; font-weight: bold; display: block; margin-top: 8px; border-top: 1px solid #f1f1f1; padding-top: 8px; }
+        
+        /* وسام الحالة */
+        .badge { background: #e67e22; color: white; padding: 2px 10px; border-radius: 20px; font-size: 12px; }
     </style>
 </head>
 <body>
 
 <div class="container" id="activation-box">
-    <h2 style="color: #2c3e50;">🔐 تفعيل الموسوعة</h2>
-    <p>للحصول على كود التفعيل، يرجى تحويل رسوم الاشتراك <b>(6,000 جنيه)</b>.</p>
-    <p>رقم هاتفك التعريفي:</p>
-    <div id="device-id-display" class="device-id">----</div>
-    <input type="number" id="user-code" placeholder="أدخل كود التفعيل هنا">
-    <button class="btn btn-activate" onclick="validate()">تفعيل التطبيق الآن</button>
-    <a id="wa-link" class="btn btn-whatsapp" target="_blank">طلب الكود عبر واتساب 💬</a>
+    <div class="activation-card">
+        <h2 style="color: #2c3e50;">🛡️ تفعيل الموسوعة الشاملة</h2>
+        <p>رسوم الاشتراك في بنك أعطال الدراجات الكهربائية: <b>6,000 جنيه</b></p>
+        <p>رقم تعريف هاتفك الفريد:</p>
+        <div id="device-id-display" class="device-id">----</div>
+        <input type="number" id="user-code" placeholder="أدخل كود التفعيل">
+        <button class="btn btn-activate" onclick="validate()">تفعيل الموسوعة الآن</button>
+        <a id="wa-link" class="btn btn-whatsapp" target="_blank">طلب الكود عبر واتساب 💬</a>
+        <p style="font-size: 12px; color: #888; margin-top: 15px;">سيتم ربط التفعيل بهذا الجهاز فقط</p>
+    </div>
 </div>
 
 <div class="container" id="app-content">
-    <h2 style="text-align:center; color: #2c3e50;">🛠️ دليل الـ 100 عطل</h2>
-    <input type="text" id="searchInput" onkeyup="filterFaults()" placeholder="ابحث عن العطل (مثلاً: بطارية، محرك)...">
-    <div class="scroll-area" id="faults-list">
-        </div>
+    <h2 style="text-align:center; color: #2c3e50;">⚡ موسوعة الدراجة الكهربائية ⚡</h2>
+    <input type="text" id="searchInput" onkeyup="searchWiki()" placeholder="ابحث عن عطل (مثلاً: كنترول، شاحن، بطارية)...">
+
+    <div class="section-tab">🔋 قسم البطاريات <span class="badge">ليثيوم / أسيد</span></div>
+    <div class="fault-item">
+        <strong>س: البطارية تشحن بسرعة وتفرغ بسرعة؟</strong>
+        <span class="solution-text">💡 الحل: جفاف السائل في بطاريات الأسيد، أو تلف إحدى الخلايا في بطاريات الليثيوم (يحتاج فحص توازن الخلايا BMS).</span>
+    </div>
+    <div class="fault-item">
+        <strong>س: البطارية تخرج شرارة قوية عند التوصيل؟</strong>
+        <span class="solution-text">💡 الحل: هذا طبيعي بسبب شحن مكثفات الكنترول، لكن إذا كانت الشرارة مصحوبة برائحة حرق، فهناك التماس داخلي.</span>
+    </div>
+
+    <div class="section-tab">⚙️ قسم المحرك (Hub Motor) <span class="badge">Brushless</span></div>
+    <div class="fault-item">
+        <strong>س: الموتور ثقيل جداً في الحركة وهو مطفأ؟</strong>
+        <span class="solution-text">💡 الحل: هناك تلامس بين أسلاك الفازات الثلاثة، افصل أسلاك الموتور عن الكنترول، إذا أصبح خفيفاً فالمشكلة في "ترانزستورات" الكنترول.</span>
+    </div>
+    <div class="fault-item">
+        <strong>س: تقطيع ورجفة في الموتور عند الانطلاق؟</strong>
+        <span class="solution-text">💡 الحل: عطل في أحد حساسات الهال (Hall Sensors) أو ارتخاء في فيشة الحساسات.</span>
+    </div>
+
+    <div class="section-tab">🔌 قسم الشواحن والدوائر <span class="badge">Charger</span></div>
+    <div class="fault-item">
+        <strong>س: لمبة الشاحن خضراء دائماً ولا يشحن؟</strong>
+        <span class="solution-text">💡 الحل: قطع في سلك الشاحن الواصل للدراجة، أو تلف في فيوز مدخل الشحن بالدراجة.</span>
+    </div>
+
+    <p style="text-align:center; margin-top: 30px; font-size: 13px; color: #95a5a6;">محمد طه عطا المنان - إدارة دكان الصيانة © 2026</p>
 </div>
 
 <script>
+    // نظام التفعيل (الرقم + 1998)
     const dId = Math.floor(Math.random() * 8999) + 1000;
     document.getElementById('device-id-display').innerText = dId;
-    document.getElementById('wa-link').href = `https://wa.me/249999240574?text=${encodeURIComponent('أريد كود تفعيل الأعطال. الرقم التعريفي: ' + dId)}`;
-
-    const faults = [
-        { q: "الموتور لا يعمل نهائياً (ميت)", s: "افحص فيوز البطارية وتوصيلات الأقطاب." },
-        { q: "صوت تكتكة عند التشغيل", s: "البطارية ضعيفة، اشحنها أو استبدلها." },
-        { q: "تقطيع في الحركة (تفتفة)", s: "نظف الكربراتير وفلتر الهواء وغير البوجيه." },
-        { q: "دخان أسود من العادم", s: "زيادة في استهلاك البنزين، اضبط الكربراتير." },
-        { q: "الفرامل تصدر صوتاً حاداً", s: "تيل الفرامل انتهى ويحتاج تغيير." },
-        { q: "حرارة المحرك مرتفعة جداً", s: "افحص مستوى الزيت ومروحة التبريد." },
-        { q: "الأنوار تضعف وتزيد مع السرعة", s: "بلاطة الشحن تالفة وتحتاج تغيير." },
-        { q: "ثقل في حركة المقود", s: "شحم بلي الرقبة أو استبدله." }
-        // ... يمكنك إضافة بقية الـ 100 هنا بنفس النمط
-    ];
+    document.getElementById('wa-link').href = `https://wa.me/249999240574?text=${encodeURIComponent('أريد تفعيل الموسوعة الشاملة بـ 6000 ج. الرقم التعريفي: ' + dId)}`;
 
     function validate() {
-        const input = document.getElementById('user-code').value;
-        if (parseInt(input) === (dId + 1998)) {
-            localStorage.setItem('bike_activated_6k', 'true');
+        if (parseInt(document.getElementById('user-code').value) === (dId + 1998)) {
+            localStorage.setItem('wiki_ebike_activated', 'true');
             showApp();
-        } else { alert("الكود خطأ!"); }
+        } else { alert("عذراً، كود التفعيل غير صحيح!"); }
     }
 
     function showApp() {
         document.getElementById('activation-box').style.display = 'none';
         document.getElementById('app-content').style.display = 'block';
-        displayItems(faults);
     }
 
-    function displayItems(data) {
-        const list = document.getElementById('faults-list');
-        list.innerHTML = data.map(f => `
-            <div class="fault-card">
-                <strong>❓ ${f.q}</strong>
-                <span class="solution">💡 الحل: ${f.s}</span>
-            </div>`).join('');
+    function searchWiki() {
+        let input = document.getElementById('searchInput').value.toLowerCase();
+        let items = document.getElementsByClassName('fault-item');
+        for (let i = 0; i < items.length; i++) {
+            items[i].style.display = items[i].innerText.toLowerCase().includes(input) ? "block" : "none";
+        }
     }
 
-    function filterFaults() {
-        const val = document.getElementById('searchInput').value.toLowerCase();
-        const filtered = faults.filter(f => f.q.includes(val) || f.s.includes(val));
-        displayItems(filtered);
-    }
-
-    if (localStorage.getItem('bike_activated_6k') === 'true') { showApp(); }
+    if (localStorage.getItem('wiki_ebike_activated') === 'true') { showApp(); }
 </script>
 
 </body>
