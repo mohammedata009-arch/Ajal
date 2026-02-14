@@ -3,107 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>موسوعة الدراجة الكهربائية الشاملة</title>
+    <title>موسوعة المحترف للدراجات الكهربائية</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
-        body { font-family: 'Cairo', sans-serif; background: #f0f4f8; margin: 0; padding: 20px; display: flex; justify-content: center; }
-        .container { width: 100%; max-width: 650px; background: white; padding: 25px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+        :root { --primary: #2c3e50; --accent: #27ae60; --danger: #e74c3c; --bg: #f8f9fa; }
+        body { font-family: 'Cairo', sans-serif; background: var(--bg); margin: 0; padding: 20px; color: var(--primary); }
+        .container { width: 100%; max-width: 700px; margin: auto; background: white; border-radius: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; }
         
-        /* شاشة التفعيل */
-        .activation-card { text-align: center; }
-        .device-id { font-size: 28px; color: #e74c3c; background: #fff5f5; padding: 15px; border-radius: 15px; border: 2px dashed #e74c3c; display: inline-block; margin: 15px 0; font-weight: bold; }
-        input[type="number"], input[type="text"] { width: 100%; padding: 15px; margin: 10px 0; border: 2px solid #eee; border-radius: 12px; text-align: center; font-size: 18px; box-sizing: border-box; }
+        /* شاشة التفعيل الاحترافية */
+        .activation-header { background: var(--primary); color: white; padding: 30px; text-align: center; }
+        .price-tag { background: var(--accent); color: white; padding: 5px 15px; border-radius: 50px; font-size: 14px; }
+        .device-id-box { background: #fdf2f2; border: 2px dashed var(--danger); padding: 20px; border-radius: 15px; margin: 20px; text-align: center; }
+        .device-id-box span { font-size: 32px; font-weight: bold; color: var(--danger); letter-spacing: 2px; }
         
-        /* الأزرار */
-        .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; cursor: pointer; font-size: 18px; font-weight: bold; transition: 0.3s; margin-top: 10px; display: block; text-decoration: none; text-align: center; }
-        .btn-activate { background: #27ae60; color: white; }
-        .btn-whatsapp { background: #25D366; color: white; }
-        
-        /* محتوى الموسوعة */
+        /* الواجهة الرئيسية */
         #app-content { display: none; }
-        .section-tab { background: #2980b9; color: white; padding: 12px; border-radius: 10px; margin-top: 25px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
-        .fault-item { background: #fdfdfd; border: 1px solid #edf2f7; padding: 15px; margin-top: 10px; border-radius: 12px; border-right: 5px solid #3498db; }
-        .solution-text { color: #2ecc71; font-weight: bold; display: block; margin-top: 8px; border-top: 1px solid #f1f1f1; padding-top: 8px; }
+        .app-header { background: var(--primary); color: white; padding: 20px; text-align: center; position: sticky; top: 0; z-index: 100; }
+        .search-container { padding: 15px; background: #eee; }
+        .search-input { width: 100%; padding: 15px; border: none; border-radius: 12px; font-size: 16px; font-family: 'Cairo'; box-sizing: border-box; }
         
-        /* وسام الحالة */
-        .badge { background: #e67e22; color: white; padding: 2px 10px; border-radius: 20px; font-size: 12px; }
+        /* البطاقات */
+        .category-title { background: #e9ecef; padding: 10px 20px; font-weight: bold; font-size: 18px; border-right: 6px solid var(--accent); margin: 10px 0; }
+        .fault-card { padding: 15px 20px; border-bottom: 1px solid #eee; transition: 0.3s; }
+        .fault-card:hover { background: #f1f8f5; }
+        .fault-card strong { color: var(--primary); font-size: 16px; display: block; margin-bottom: 5px; }
+        .fault-card .solution { color: var(--accent); font-weight: bold; font-size: 15px; line-height: 1.6; }
+        .error-code { background: #34495e; color: white; padding: 2px 8px; border-radius: 5px; font-size: 12px; margin-left: 8px; }
+
+        /* الأزرار */
+        .btn { display: block; width: 80%; margin: 15px auto; padding: 15px; border: none; border-radius: 12px; cursor: pointer; font-size: 18px; font-weight: bold; text-decoration: none; text-align: center; transition: 0.3s; }
+        .btn-activate { background: var(--accent); color: white; }
+        .btn-whatsapp { background: #25D366; color: white; }
+        input[type="number"] { width: 80%; padding: 15px; margin: 10px auto; display: block; border: 2px solid #ddd; border-radius: 12px; text-align: center; font-size: 22px; }
     </style>
 </head>
 <body>
 
 <div class="container" id="activation-box">
-    <div class="activation-card">
-        <h2 style="color: #2c3e50;">🛡️ تفعيل الموسوعة الشاملة</h2>
-        <p>رسوم الاشتراك في بنك أعطال الدراجات الكهربائية: <b>6,000 جنيه</b></p>
-        <p>رقم تعريف هاتفك الفريد:</p>
-        <div id="device-id-display" class="device-id">----</div>
-        <input type="number" id="user-code" placeholder="أدخل كود التفعيل">
-        <button class="btn btn-activate" onclick="validate()">تفعيل الموسوعة الآن</button>
-        <a id="wa-link" class="btn btn-whatsapp" target="_blank">طلب الكود عبر واتساب 💬</a>
-        <p style="font-size: 12px; color: #888; margin-top: 15px;">سيتم ربط التفعيل بهذا الجهاز فقط</p>
+    <div class="activation-header">
+        <h2>🛡️ نظام التفعيل الذكي</h2>
+        <span class="price-tag">رسوم الاشتراك: 6,000 ج.س</span>
     </div>
+    <div class="device-id-box">
+        <p>الرقم التعريفي لجهازك (أرسله للمسؤول):</p>
+        <span id="dId">----</span>
+    </div>
+    <input type="number" id="inputCode" placeholder="أدخل كود التفعيل">
+    <button class="btn btn-activate" onclick="check()">تفعيل الموسوعة</button>
+    <a id="waLink" class="btn btn-whatsapp" target="_blank">طلب الكود (واتساب)</a>
 </div>
 
-<div class="container" id="app-content">
-    <h2 style="text-align:center; color: #2c3e50;">⚡ موسوعة الدراجة الكهربائية ⚡</h2>
-    <input type="text" id="searchInput" onkeyup="searchWiki()" placeholder="ابحث عن عطل (مثلاً: كنترول، شاحن، بطارية)...">
+<div id="app-content">
+    <div class="app-header">
+        <h3>🛠️ موسوعة أعطال الدراجات الكهربائية</h3>
+    </div>
+    <div class="search-container">
+        <input type="text" id="srch" class="search-input" onkeyup="filter()" placeholder="ابحث برقم العطل أو اسم الجزء...">
+    </div>
+    
+    <div id="list">
+        <div class="category-title">📟 قسم شاشة العرض (Error Codes)</div>
+        <div class="fault-card"><strong><span class="error-code">E01</span> عطل في المحرك (Motor Error)</strong><span class="solution">الحل: فحص أسلاك الفازات الثلاثة أو فحص حساسات الهال (Hall Sensors).</span></div>
+        <div class="fault-card"><strong><span class="error-code">E02</span> عطل في مقبض السرعة (Throttle)</strong><span class="solution">الحل: تأكد من توصيل أسلاك المقبض أو استبداله (التماس داخلي).</span></div>
+        <div class="fault-card"><strong><span class="error-code">E03</span> عطل في الكنترول (Controller Error)</strong><span class="solution">الحل: فحص ترانزستورات الموسفت داخل الكنترول أو إعادة ضبط المصنع.</span></div>
+        <div class="fault-card"><strong><span class="error-code">E04</span> الجهد منخفض جداً (Low Voltage)</strong><span class="solution">الحل: اشحن البطارية فوراً، إذا استمر العطل فالبطارية تالفة.</span></div>
+        <div class="fault-card"><strong><span class="error-code">E05</span> عطل في حساس الفرامل (Brake Lever)</strong><span class="solution">الحل: تأكد من رجوع مقبض الفرامل لمكانه، الحساس يقطع الكهرباء عن الموتور.</span></div>
 
-    <div class="section-tab">🔋 قسم البطاريات <span class="badge">ليثيوم / أسيد</span></div>
-    <div class="fault-item">
-        <strong>س: البطارية تشحن بسرعة وتفرغ بسرعة؟</strong>
-        <span class="solution-text">💡 الحل: جفاف السائل في بطاريات الأسيد، أو تلف إحدى الخلايا في بطاريات الليثيوم (يحتاج فحص توازن الخلايا BMS).</span>
+        <div class="category-title">🔋 قسم البطارية والطاقة</div>
+        <div class="fault-card"><strong>1. البطارية تعطي 48 فولت ولكن الموتور لا يتحرك</strong><span class="solution">الحل: البطارية "كاذبة"؛ الجهد موجود لكن الأمبير مفقود. افحص الخلايا تحت الحمل.</span></div>
+        <div class="fault-card"><strong>2. انقطاع الكهرباء فجأة عند الوصول لسرعة 20 كم/س</strong><span class="solution">الحل: نظام الـ BMS في البطارية يفصل الكهرباء بسبب خلية ضعيفة لا تتحمل السحب.</span></div>
+        <div class="fault-card"><strong>3. سخونة مفرطة في أسلاك البطارية</strong><span class="solution">الحل: الأسلاك غير كافية لتحمل الأمبير، أو هناك ارتخاء في فيشة التوصيل (الكونكتر).</span></div>
+        
+        <div class="category-title">⚙️ قسم الموتور (Brushless Hub)</div>
+        <div class="fault-card"><strong>4. سماع صوت طحن أو احتكاك معدني داخل الموتور</strong><span class="solution">الحل: تلف البلي الداخلي (Bearings) أو دخول ماء أدى لصدأ المغناطيسات.</span></div>
+        <div class="fault-card"><strong>5. الموتور يدور عكس الاتجاه</strong><span class="solution">الحل: قم بتبديل سلكين من أسلاك الفازات (الأزرق والأخضر مثلاً) أو عبر برمجة الكنترول.</span></div>
     </div>
-    <div class="fault-item">
-        <strong>س: البطارية تخرج شرارة قوية عند التوصيل؟</strong>
-        <span class="solution-text">💡 الحل: هذا طبيعي بسبب شحن مكثفات الكنترول، لكن إذا كانت الشرارة مصحوبة برائحة حرق، فهناك التماس داخلي.</span>
-    </div>
-
-    <div class="section-tab">⚙️ قسم المحرك (Hub Motor) <span class="badge">Brushless</span></div>
-    <div class="fault-item">
-        <strong>س: الموتور ثقيل جداً في الحركة وهو مطفأ؟</strong>
-        <span class="solution-text">💡 الحل: هناك تلامس بين أسلاك الفازات الثلاثة، افصل أسلاك الموتور عن الكنترول، إذا أصبح خفيفاً فالمشكلة في "ترانزستورات" الكنترول.</span>
-    </div>
-    <div class="fault-item">
-        <strong>س: تقطيع ورجفة في الموتور عند الانطلاق؟</strong>
-        <span class="solution-text">💡 الحل: عطل في أحد حساسات الهال (Hall Sensors) أو ارتخاء في فيشة الحساسات.</span>
-    </div>
-
-    <div class="section-tab">🔌 قسم الشواحن والدوائر <span class="badge">Charger</span></div>
-    <div class="fault-item">
-        <strong>س: لمبة الشاحن خضراء دائماً ولا يشحن؟</strong>
-        <span class="solution-text">💡 الحل: قطع في سلك الشاحن الواصل للدراجة، أو تلف في فيوز مدخل الشحن بالدراجة.</span>
-    </div>
-
-    <p style="text-align:center; margin-top: 30px; font-size: 13px; color: #95a5a6;">محمد طه عطا المنان - إدارة دكان الصيانة © 2026</p>
+    
+    <p style="text-align:center; padding: 20px; color: #888;">محمد طه عطا المنان - دكان الإدارة الاحترافي © 2026</p>
 </div>
 
 <script>
-    // نظام التفعيل (الرقم + 1998)
+    // نظام التفعيل الرقمي (ID + 1998)
     const dId = Math.floor(Math.random() * 8999) + 1000;
-    document.getElementById('device-id-display').innerText = dId;
-    document.getElementById('wa-link').href = `https://wa.me/249999240574?text=${encodeURIComponent('أريد تفعيل الموسوعة الشاملة بـ 6000 ج. الرقم التعريفي: ' + dId)}`;
+    document.getElementById('dId').innerText = dId;
+    document.getElementById('waLink').href = `https://wa.me/249999240574?text=${encodeURIComponent('أريد تفعيل موسوعة المحترف بـ 6000 ج. الرقم التعريفي هو: ' + dId)}`;
 
-    function validate() {
-        if (parseInt(document.getElementById('user-code').value) === (dId + 1998)) {
-            localStorage.setItem('wiki_ebike_activated', 'true');
-            showApp();
-        } else { alert("عذراً، كود التفعيل غير صحيح!"); }
+    function check() {
+        if(parseInt(document.getElementById('inputCode').value) === (dId + 1998)) {
+            localStorage.setItem('pro_ebike_6k', 'true');
+            launch();
+        } else { alert("عذراً، الكود غير صحيح."); }
     }
 
-    function showApp() {
+    function launch() {
         document.getElementById('activation-box').style.display = 'none';
         document.getElementById('app-content').style.display = 'block';
+        window.scrollTo(0,0);
     }
 
-    function searchWiki() {
-        let input = document.getElementById('searchInput').value.toLowerCase();
-        let items = document.getElementsByClassName('fault-item');
-        for (let i = 0; i < items.length; i++) {
-            items[i].style.display = items[i].innerText.toLowerCase().includes(input) ? "block" : "none";
+    function filter() {
+        let q = document.getElementById('srch').value.toLowerCase();
+        let cards = document.getElementsByClassName('fault-card');
+        for (let c of cards) {
+            c.style.display = c.innerText.toLowerCase().includes(q) ? "block" : "none";
         }
     }
 
-    if (localStorage.getItem('wiki_ebike_activated') === 'true') { showApp(); }
+    if(localStorage.getItem('pro_ebike_6k') === 'true') { launch(); }
 </script>
 
 </body>
