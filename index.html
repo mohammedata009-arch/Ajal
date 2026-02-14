@@ -3,68 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>موسوعة الأعطال - تفعيل تجاري</title>
+    <title>موسوعة الأعطال - 6000 جنيه</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
-        body { font-family: 'Cairo', sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .container { width: 90%; max-width: 500px; background: white; padding: 30px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; }
+        body { font-family: 'Cairo', sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; min-height: 100vh; margin: 0; padding-top: 20px; }
+        .container { width: 90%; max-width: 600px; background: white; padding: 25px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; height: fit-content; }
         .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; cursor: pointer; font-size: 18px; font-weight: bold; transition: 0.3s; margin-top: 15px; text-decoration: none; display: block; }
         .btn-activate { background: #27ae60; color: white; }
         .btn-whatsapp { background: #25D366; color: white; }
         .device-id { font-size: 24px; color: #e74c3c; background: #fff5f5; padding: 10px; border-radius: 10px; border: 2px dashed #e74c3c; display: inline-block; margin: 10px 0; }
-        input { width: 100%; padding: 15px; margin: 20px 0; border: 2px solid #eee; border-radius: 12px; text-align: center; font-size: 20px; }
-        #app-content { display: none; }
+        input { width: 100%; padding: 15px; margin: 10px 0; border: 2px solid #eee; border-radius: 12px; text-align: center; font-size: 18px; box-sizing: border-box; }
+        #app-content { display: none; text-align: right; }
+        .fault-card { background: #f9f9f9; padding: 15px; border-right: 5px solid #3498db; margin-bottom: 15px; border-radius: 8px; }
+        .solution { color: #27ae60; display: block; margin-top: 8px; font-weight: bold; border-top: 1px solid #eee; padding-top: 5px; }
+        .scroll-area { max-height: 500px; overflow-y: auto; margin-top: 20px; padding-left: 5px; }
     </style>
 </head>
 <body>
 
 <div class="container" id="activation-box">
     <h2 style="color: #2c3e50;">🔐 تفعيل الموسوعة</h2>
-    <p>للحصول على كود التفعيل، يرجى تحويل رسوم الاشتراك <b>(6,000 جنيه فقط)</b>.</p>
-    
-    <p>رقم هاتفك التعريفي هو:</p>
-    <div id="device-id" class="device-id">----</div>
-
+    <p>للحصول على كود التفعيل، يرجى تحويل رسوم الاشتراك <b>(6,000 جنيه)</b>.</p>
+    <p>رقم هاتفك التعريفي:</p>
+    <div id="device-id-display" class="device-id">----</div>
     <input type="number" id="user-code" placeholder="أدخل كود التفعيل هنا">
-    
     <button class="btn btn-activate" onclick="validate()">تفعيل التطبيق الآن</button>
-    
-    <p style="margin-top: 20px; font-size: 14px; color: #666;">بعد التحويل، اضغط الزر بالأسفل لإرسال الرقم عبر واتساب:</p>
-    <a id="whatsapp-btn" class="btn btn-whatsapp" target="_blank">طلب التفعيل عبر واتساب 💬</a>
+    <a id="wa-link" class="btn btn-whatsapp" target="_blank">طلب الكود عبر واتساب 💬</a>
 </div>
 
 <div class="container" id="app-content">
-    <h2 style="color: #27ae60;">✅ تم التفعيل بنجاح</h2>
-    <p>مرحباً بك في دليل الـ 100 عطل.</p>
-    </div>
+    <h2 style="text-align:center; color: #2c3e50;">🛠️ دليل الـ 100 عطل</h2>
+    <input type="text" id="searchInput" onkeyup="filterFaults()" placeholder="ابحث عن العطل (مثلاً: بطارية، محرك)...">
+    <div class="scroll-area" id="faults-list">
+        </div>
+</div>
 
 <script>
-    // 1. توليد الرقم التعريفي وتجهيز رابط واتساب
     const dId = Math.floor(Math.random() * 8999) + 1000;
-    document.getElementById('device-id').innerText = dId;
+    document.getElementById('device-id-display').innerText = dId;
+    document.getElementById('wa-link').href = `https://wa.me/249999240574?text=${encodeURIComponent('أريد كود تفعيل الأعطال. الرقم التعريفي: ' + dId)}`;
 
-    const waNumber = "249999240574"; // رقمك الدولي
-    const waMsg = `السلام عليكم، قمت بتحويل الرسوم. الرقم التعريفي لهاتفي هو: ${dId}`;
-    document.getElementById('whatsapp-btn').href = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMsg)}`;
+    const faults = [
+        { q: "الموتور لا يعمل نهائياً (ميت)", s: "افحص فيوز البطارية وتوصيلات الأقطاب." },
+        { q: "صوت تكتكة عند التشغيل", s: "البطارية ضعيفة، اشحنها أو استبدلها." },
+        { q: "تقطيع في الحركة (تفتفة)", s: "نظف الكربراتير وفلتر الهواء وغير البوجيه." },
+        { q: "دخان أسود من العادم", s: "زيادة في استهلاك البنزين، اضبط الكربراتير." },
+        { q: "الفرامل تصدر صوتاً حاداً", s: "تيل الفرامل انتهى ويحتاج تغيير." },
+        { q: "حرارة المحرك مرتفعة جداً", s: "افحص مستوى الزيت ومروحة التبريد." },
+        { q: "الأنوار تضعف وتزيد مع السرعة", s: "بلاطة الشحن تالفة وتحتاج تغيير." },
+        { q: "ثقل في حركة المقود", s: "شحم بلي الرقبة أو استبدله." }
+        // ... يمكنك إضافة بقية الـ 100 هنا بنفس النمط
+    ];
 
-    // 2. قاعدة التفعيل (الرقم + 1998)
     function validate() {
         const input = document.getElementById('user-code').value;
         if (parseInt(input) === (dId + 1998)) {
-            alert("تم التفعيل بنجاح! شكراً لك.");
-            document.getElementById('activation-box').style.display = 'none';
-            document.getElementById('app-content').style.display = 'block';
-            localStorage.setItem('activated_6k', 'true');
-        } else {
-            alert("الكود غير صحيح. يرجى مراجعة الإدارة.");
-        }
+            localStorage.setItem('bike_activated_6k', 'true');
+            showApp();
+        } else { alert("الكود خطأ!"); }
     }
 
-    // حفظ التفعيل
-    if (localStorage.getItem('activated_6k') === 'true') {
+    function showApp() {
         document.getElementById('activation-box').style.display = 'none';
         document.getElementById('app-content').style.display = 'block';
+        displayItems(faults);
     }
+
+    function displayItems(data) {
+        const list = document.getElementById('faults-list');
+        list.innerHTML = data.map(f => `
+            <div class="fault-card">
+                <strong>❓ ${f.q}</strong>
+                <span class="solution">💡 الحل: ${f.s}</span>
+            </div>`).join('');
+    }
+
+    function filterFaults() {
+        const val = document.getElementById('searchInput').value.toLowerCase();
+        const filtered = faults.filter(f => f.q.includes(val) || f.s.includes(val));
+        displayItems(filtered);
+    }
+
+    if (localStorage.getItem('bike_activated_6k') === 'true') { showApp(); }
 </script>
 
 </body>
