@@ -3,186 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>موسوعة المحترف - الإصدار الذهبي</title>
+    <title>أكاديمية محمد طه - 50 سؤال محترف</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+        :root { --gold: #f1c40f; --dark: #0a0e14; --blue: #16213e; --green: #00b894; --red: #d63031; }
+        body { font-family: 'Cairo', sans-serif; background: var(--dark); color: white; margin: 0; padding: 10px; }
+        .container { max-width: 650px; margin: auto; background: var(--blue); border-radius: 25px; overflow: hidden; border: 2px solid var(--gold); box-shadow: 0 0 30px rgba(241, 196, 15, 0.2); }
         
-        :root {
-            --gold: #f1c40f;
-            --blue: #1e3c72;
-            --neon-green: #2ecc71;
-            --neon-red: #e74c3c;
-        }
+        /* التفعيل */
+        .act-box { padding: 40px 20px; text-align: center; }
+        .device-id { font-size: 35px; color: var(--gold); font-weight: 900; background: #000; padding: 15px; border-radius: 15px; margin: 20px 0; border: 2px dashed #fff; letter-spacing: 5px; }
+        input { width: 90%; padding: 18px; border-radius: 15px; border: none; font-size: 22px; text-align: center; margin-bottom: 20px; outline: none; background: #fff; color: #000; }
+        .btn { width: 100%; padding: 18px; border-radius: 50px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 20px; display: block; text-decoration: none; text-align: center; }
+        .btn-gold { background: var(--gold); color: #000; box-shadow: 0 5px 15px rgba(241, 196, 15, 0.3); }
+        .btn-wa { background: #25d366; color: #fff; margin-top: 20px; }
 
-        body {
-            font-family: 'Cairo', sans-serif;
-            background: #0a0e14;
-            color: white;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        .main-card {
-            width: 95%;
-            max-width: 600px;
-            background: linear-gradient(145deg, #16213e, #0f3460);
-            border: 2px solid var(--gold);
-            border-radius: 30px;
-            padding: 30px;
-            box-shadow: 0 0 40px rgba(241, 196, 15, 0.2);
-            text-align: center;
-        }
-
-        /* شاشة التفعيل */
-        .activation-title { font-size: 28px; font-weight: 900; color: var(--gold); text-shadow: 0 0 10px rgba(241, 196, 15, 0.5); }
-        .price-badge { background: var(--neon-green); color: black; padding: 5px 20px; border-radius: 50px; font-weight: bold; font-size: 14px; }
-        .device-id-container { margin: 25px 0; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); }
-        .device-id { font-size: 35px; color: var(--neon-red); font-weight: 900; letter-spacing: 5px; }
+        /* التطبيق */
+        #main-app { display: none; }
+        .tabs { display: flex; background: #000; padding: 10px; position: sticky; top: 0; z-index: 1000; gap: 5px; }
+        .tab { flex: 1; padding: 12px; text-align: center; cursor: pointer; font-size: 14px; transition: 0.3s; color: #fff; border-radius: 10px; border: 1px solid transparent; }
+        .tab.active { background: var(--gold); color: #000; font-weight: bold; }
         
-        input { width: 90%; padding: 15px; border-radius: 15px; border: 2px solid var(--gold); background: #0a0e14; color: white; font-size: 20px; text-align: center; margin-bottom: 20px; outline: none; }
-        
-        .btn { width: 100%; padding: 18px; border-radius: 50px; border: none; font-size: 20px; font-weight: bold; cursor: pointer; transition: 0.4s; margin-top: 10px; display: block; text-decoration: none; }
-        .btn-gold { background: var(--gold); color: black; box-shadow: 0 5px 15px rgba(241, 196, 15, 0.4); }
-        .btn-gold:hover { transform: scale(1.05); background: #fff; }
-        .btn-wa { background: #25D366; color: white; margin-top: 20px; font-size: 16px; }
+        .question-card { margin: 15px; padding: 20px; border-radius: 20px; background: rgba(255,255,255,0.05); border-right: 6px solid var(--gold); animation: slideIn 0.4s ease-out; }
+        .lvl-tag { font-size: 12px; font-weight: bold; padding: 3px 10px; border-radius: 5px; margin-bottom: 10px; display: inline-block; }
+        .opt { background: rgba(255,255,255,0.08); padding: 15px; margin: 10px 0; border-radius: 12px; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); transition: 0.2s; text-align: right; }
+        .opt:hover { border-color: var(--gold); background: rgba(255,255,255,0.15); }
+        .correct { background: var(--green) !important; color: white; border-color: #fff !important; }
+        .wrong { background: var(--red) !important; color: white; border-color: #fff !important; }
 
-        /* شاشة الأسئلة */
-        #quiz-screen { display: none; }
-        .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
-        .question-text { font-size: 22px; font-weight: 700; line-height: 1.5; margin-bottom: 30px; color: #fff; }
-        .options-container { display: grid; grid-template-columns: 1fr; gap: 15px; }
-        .opt { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); padding: 15px; border-radius: 15px; cursor: pointer; transition: 0.3s; text-align: right; position: relative; overflow: hidden; }
-        .opt:hover { background: rgba(255,255,255,0.1); border-color: var(--gold); }
-        .opt.correct { background: var(--neon-green) !important; color: black; font-weight: bold; }
-        .opt.wrong { background: var(--neon-red) !important; color: white; }
-        
-        .explanation { display: none; margin-top: 20px; padding: 15px; background: rgba(46, 204, 113, 0.1); border-radius: 15px; border-right: 5px solid var(--neon-green); font-size: 14px; text-align: right; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
     </style>
 </head>
 <body>
 
-<div class="main-card" id="activation-box">
-    <div class="activation-title">👑 موسوعة المحترف الذهبية</div>
-    <span class="price-badge">رسوم التفعيل: 6,000 جنيه</span>
-    
-    <div class="device-id-container">
-        <p style="margin:0; font-size:14px; opacity:0.7;">رقمك التعريفي الفريد</p>
-        <div class="device-id" id="display-id">----</div>
+<div id="act-screen" class="container">
+    <div class="act-box">
+        <h1 style="color:var(--gold); margin:0;">💎 موسوعة الـ 50 سؤالاً</h1>
+        <p>بإشراف الخبير: محمد طه عطا المنان</p>
+        <div class="device-id" id="myId">----</div>
+        <input type="number" id="code" placeholder="أدخل كود التفعيل">
+        <button class="btn btn-gold" onclick="verify()">دخول الأكاديمية 🚀</button>
+        <a id="wa" class="btn btn-wa" target="_blank">اطلب كود الـ 6000 ج (واتساب)</a>
     </div>
-
-    <input type="number" id="code-input" placeholder="أدخل كود التفعيل الملكي">
-    <button class="btn btn-gold" onclick="verify()">دخول الموسوعة 🔓</button>
-    
-    <a id="wa-btn" class="btn btn-wa" target="_blank">طلب الكود من محمد طه (واتساب) 💬</a>
 </div>
 
-<div class="main-card" id="quiz-screen">
-    <div class="q-header">
-        <span id="q-count" style="color:var(--gold)">السؤال 1 من 10</span>
-        <span id="score" style="font-weight:bold">🏆 خبير</span>
+<div id="main-app" class="container">
+    <div class="tabs">
+        <div class="tab active" onclick="load('bat', this)">🔋 البطارية</div>
+        <div class="tab" onclick="load('mot', this)">⚙️ الموتور</div>
+        <div class="tab" onclick="load('con', this)">📟 الكنترول</div>
     </div>
-    <div class="question-text" id="q-text">جارِ تحميل السؤال...</div>
-    <div class="options-container" id="opt-box"></div>
-    <div class="explanation" id="ex-box"></div>
+    <div id="list"></div>
 </div>
 
 <script>
-    // 1. منطق التفعيل (ID + 1998)
-    const deviceId = Math.floor(Math.random() * 8999) + 1000;
-    document.getElementById('display-id').innerText = deviceId;
-    document.getElementById('wa-btn').href = `https://wa.me/249999240574?text=${encodeURIComponent('أريد تفعيل النسخة الذهبية للموسوعة. الرقم: ' + deviceId)}`;
+    const dId = Math.floor(Math.random() * 8999) + 1000;
+    document.getElementById('myId').innerText = dId;
+    document.getElementById('wa').href = `https://wa.me/249999240574?text=تفعيل_الـ50_سؤال:${dId}`;
 
     function verify() {
-        const val = document.getElementById('code-input').value;
-        if(parseInt(val) === (deviceId + 1998)) {
-            localStorage.setItem('gold_activated', 'true');
-            startApp();
-        } else { alert("الكود غير صحيح يا هندسة!"); }
+        if(parseInt(document.getElementById('code').value) === (dId + 1998)) {
+            localStorage.setItem('unlocked_50', 'true');
+            start();
+        } else { alert("الكود غير صحيح!"); }
     }
 
-    // 2. الأسئلة الفعلية التفاعلية
-    const database = [
-        { 
-            q: "لماذا يسخن الكنترول بشكل مفرط رغم أن السرعة عادية؟", 
-            a: ["تلف البطارية", "ضعف المغناطيس في الموتور", "ارتخاء مسامير أسلاك الفازات", "المصباح محروق"], 
-            c: 2, 
-            e: "ارتخاء الأسلاك يسبب مقاومة كهربائية عالية ترفع حرارة الكنترول وقد تؤدي لاحتراقه." 
-        },
-        { 
-            q: "ما هو الجهد الحقيقي لخلية الليثيوم الواحدة (3.7v) عند الشحن الكامل؟", 
-            a: ["3.7 فولت", "4.0 فولت", "4.2 فولت", "5.0 فولت"], 
-            c: 2, 
-            e: "خلية الليثيوم تشحن حتى 4.2 فولت كحد أقصى، وأي زيادة تسبب انفجارها." 
-        },
-        { 
-            q: "الموتور يصدر 'رجة' قوية عند البداية ثم يعمل بشكل طبيعي، أين الخلل؟", 
-            a: ["البطارية ضعيفة", "أحد حساسات الهال تالف جزئياً", "الفرامل مشدودة", "سلك المقبض مقطوع"], 
-            c: 1, 
-            e: "الرجة تعني أن الكنترول يجد صعوبة في معرفة وضعية الموتور بسبب حساس هال ضعيف." 
-        },
-        { 
-            q: "ما وظيفة سلك (Signal) في مقبض السرعة؟", 
-            a: ["تزويد الكهرباء 48v", "إرسال جهد متغير من 1v إلى 4.2v", "تبريد المقبض", "تفعيل الإنذار"], 
-            c: 1, 
-            e: "المقبض يرسل إشارة فولتية متغيرة للكنترول ليحدد سرعة الموتور المطلوبة." 
-        },
-        { 
-            q: "عند فحص الموتور بجهاز الأفوميتر، ماذا تعطي القراءة بين الفازات؟", 
-            a: ["قراءة مفتوحة (Open)", "مقاومة صفرية تماماً", "مقاومة متساوية ومنخفضة جداً", "100 أوم"], 
-            c: 2, 
-            e: "الفازات يجب أن تكون متوازنة في المقاومة، أي فرق كبير يعني احتراق الملفات." 
-        }
-    ];
+    const db = {
+        bat: [
+            { q: "الجهد الكامل لبطارية 48v هو:", o: ["48v", "54.6v", "58v"], c: 1, l: "مبتدئ" },
+            { q: "وظيفة الـ BMS الأساسية:", o: ["زيادة السرعة", "حماية الخلايا", "تبريد البطارية"], c: 1, l: "فني" },
+            { q: "ماذا تفعل إذا وجدت خلية بجهد 2.5v والبقية 4.0v؟", o: ["شحنها يدوياً", "استبدالها فوراً", "تجاهلها"], c: 1, l: "خبير" },
+            { q: "جهد الفصل (Cut-off) لبطارية 60v هو غالباً:", o: ["50v", "40v", "48v"], c: 0, l: "فني" },
+            { q: "أفضل درجة حرارة لشحن الليثيوم:", o: ["-10", "25-35", "60+"], c: 1, l: "مبتدئ" },
+            { q: "خلية الليثيوم 18650 سعتها المعتادة:", o: ["2000-3500mAh", "100Ah", "10A"], c: 0, l: "فني" },
+            { q: "لماذا تقل المسافة في المرتفعات؟", o: ["زيادة سحب الأمبير", "نقص الفولت", "عطل الموتور"], c: 0, l: "مبتدئ" },
+            { q: "عدد الخلايا المتسلسلة (S) في بطارية 72v؟", o: ["13S", "16S", "20S"], c: 2, l: "خبير" },
+            { q: "ما هي المقاومة الداخلية للبطارية؟", o: ["مقاومة الأسلاك", "مقاومة كيميائية داخل الخلايا", "وزن البطارية"], c: 1, l: "خبير" },
+            { q: "عند حدوث 'تفتفة' بالكهرباء فجأة، الخلل غالباً:", o: ["BMS يقطع الطاقة", "المقبض مكسور", "الإضاءة"], c: 0, l: "فني" },
+            { q: "ما هو الجهد الاسمي لخلية الليثيوم؟", o: ["3.7v", "4.2v", "1.5v"], c: 0, l: "مبتدئ" },
+            { q: "ماذا تعني سعة 20Ah؟", o: ["تفريغ 20 أمبير لساعة", "سرعة 20كم", "قوة 20 واط"], c: 0, l: "فني" },
+            { q: "هل ينصح بتفريغ البطارية لصفر % دائماً؟", o: ["نعم", "لا (يضر العمر)", "أحياناً"], c: 1, l: "مبتدئ" },
+            { q: "أقصى جهد لخلية الليثيوم عند الشحن؟", o: ["4.2v", "3.7v", "5.0v"], c: 0, l: "فني" },
+            { q: "رائحة حمض من البطارية (Lead Acid) تعني:", o: ["غليان وتلف", "شحن ممتاز", "نقص هواء"], c: 0, l: "مبتدئ" }
+        ],
+        mot: [
+            { q: "ألوان أسلاك الفازات الثلاثة هي:", o: ["أحمر/أسود/أخضر", "أصفر/أزرق/أخضر", "أبيض/بني/أزرق"], c: 1, l: "مبتدئ" },
+            { q: "كيف تكتشف تلف حساس هال بالأفوميتر؟", o: ["لا يتغير الفولت عند التدوير", "يعطي 12v", "يعطي صفارة"], c: 0, l: "خبير" },
+            { q: "الموتور يصدر نحلة ولا يدور، الاحتمال:", o: ["انقطاع فازة أو تلف حساس", "تلف الإطارات", "نقص الزيت"], c: 0, l: "فني" },
+            { q: "عدد حساسات الهال داخل الموتور غالباً:", o: ["1", "3", "5"], c: 1, l: "مبتدئ" },
+            { q: "وظيفة المغناطيسات بالداخل:", o: ["توليد مجال حركة", "تخزين كهرباء", "تثبيت البلي"], c: 0, l: "فني" },
+            { q: "ماذا يسبب دخول الماء للموتور؟", o: ["تآكل المغناطيس والملفات", "زيادة السرعة", "لا شيء"], c: 0, l: "مبتدئ" },
+            { q: "قياس الفازات مع جسم الموتور يجب أن يكون:", o: ["صفارة", "مقاومة مفتوحة (OL)", "10 أوم"], c: 1, l: "خبير" },
+            { q: "الموتور يدور عكس، الحل:", o: ["قلب البطارية", "تبديل فازتين", "تغيير الشاشة"], c: 1, l: "فني" },
+            { q: "صوت طقطقة داخل الموتور تعني:", o: ["تلف البلي (Bearings)", "قوة كهرباء", "سرعة عالية"], c: 0, l: "مبتدئ" },
+            { q: "لماذا يسخن الموتور بشدة؟", o: ["حمل زائد أو مغناطيس ضعيف", "البطارية ممتلئة", "الشحن سريع"], c: 0, l: "فني" },
+            { q: "ما هو الموتور Brushless؟", o: ["بدون فرش كربونية", "يعمل بالبنزين", "ضعيف"], c: 0, l: "مبتدئ" },
+            { q: "عزم الدوران (Torque) يعتمد على:", o: ["الأمبير", "الفولت", "طول السلك"], c: 0, l: "خبير" },
+            { q: "سلك حساس الهال الأحمر يعطي جهد:", o: ["5v ثابت", "48v", "0v"], c: 0, l: "فني" },
+            { q: "لماذا نستخدم حساسات الهال؟", o: ["لمعرفة وضعية الموتور", "لقياس الحرارة", "لإضاءة اللمبات"], c: 0, l: "فني" },
+            { q: "تبديل أسلاك الحساسات بغير ترتيبها يسبب:", o: ["رجة أو عدم دوران", "سرعة خيالية", "تلف البطارية"], c: 0, l: "خبير" }
+        ],
+        con: [
+            { q: "عطل E08 يعني غالباً:", o: ["مقبض السرعة", "البطارية", "الموتور"], c: 0, l: "فني" },
+            { q: "وظيفة الموسفت (Mosfet) بالداخل:", o: ["مفاتيح طاقة الكترونية", "تخزين معلومات", "قياس السرعة"], c: 0, l: "خبير" },
+            { q: "سلك التعلم (Learning) وظيفته:", o: ["تعريف الاتجاه والفازات", "قفل الدراجة", "شحن الهاتف"], c: 0, l: "فني" },
+            { q: "الكنترول لا يعمل نهائياً، أين تفحص؟", o: ["سلك القفل (Ignition) والفيوز", "الموتور", "الإطارات"], c: 0, l: "خبير" },
+            { q: "لماذا يوجد سلك سميك وسلك رفيع (أحمر)؟", o: ["السميك للطاقة والرفيع للتشغيل", "للزينة", "كلاهما واحد"], c: 0, l: "فني" },
+            { q: "رمز E10 يعني خطأ في:", o: ["التواصل مع الشاشة", "الفرامل", "المقبض"], c: 0, l: "فني" },
+            { q: "جهد مقبض السرعة عند الضغط الكامل يصل لـ:", o: ["4.2v", "12v", "48v"], c: 0, l: "خبير" },
+            { q: "الكنترول الـ 350w يصلح لموتور:", o: ["350w أو أقل", "1000w", "أي موتور"], c: 0, l: "مبتدئ" },
+            { q: "لماذا تخرج شرارة عند توصيل البطارية بالكنترول؟", o: ["شحن المكثفات", "التماس", "عطل بالبطارية"], c: 0, l: "خبير" },
+            { q: "وظيفة سلك الفرامل العالي (High Brake):", o: ["يستقبل 12v أو فولت البطارية ليفصل", "يسحب كهرباء", "يشحن البطارية"], c: 0, l: "فني" },
+            { q: "كم عدد الموسفت في كنترول 36v/48v المعتاد؟", o: ["6 موسفت", "2", "100"], c: 0, l: "خبير" },
+            { q: "سخونة الكنترول مع بطء الحركة تعني:", o: ["احتراق جزئي للموسفت", "البطارية قوية", "عطل مقبض"], c: 0, l: "خبير" },
+            { q: "رمز E01 هو عطل:", o: ["الموتور", "الشاشة", "الفرامل"], c: 0, l: "مبتدئ" },
+            { q: "سلك 'Cruise Control' وظيفته:", o: ["تثبيت السرعة", "زيادة السرعة", "توفير بنزين"], c: 0, l: "فني" },
+            { q: "هل يمكن تشغيل كنترول 48v على بطارية 72v؟", o: ["لا (سيحترق المكثف)", "نعم", "ممكن"], c: 0, l: "خبير" },
+            { q: "ما هو سلك 'Soft Start'؟", o: ["لبدء الحركة بهدوء", "للانطلاق السريع", "للإضاءة"], c: 0, l: "فني" },
+            { q: "كيف تطفئ الدراجة بالكامل برمجياً؟", o: ["بفصل سلك الـ Ignition", "بفصل الموتور", "بفصل الشاشة"], c: 0, l: "خبير" },
+            { q: "وظيفة مروحة التبريد في الكنترولات الكبيرة:", o: ["حماية الموسفت من الاحتراق", "للتزيين", "لتنظيف الموتور"], c: 0, l: "مبتدئ" },
+            { q: "أقصى تيار (Amps) يكتب على الكنترول، ماذا يعني؟", o: ["قوة السحب القصوى", "وزن الكنترول", "سرعة الدراجة"], c: 0, l: "فني" },
+            { q: "تغيير الكنترول بواحد أقوى في الأمبير يسبب:", o: ["زيادة العزم والتسارع", "زيادة الفولت", "تلف الشاشة"], c: 0, l: "خبير" }
+        ]
+    };
 
-    let currentIdx = 0;
-
-    function startApp() {
-        document.getElementById('activation-box').style.display = 'none';
-        document.getElementById('quiz-screen').style.display = 'block';
-        loadQuestion();
+    function load(part, el) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        if(el) el.classList.add('active');
+        const area = document.getElementById('list');
+        area.innerHTML = db[part].map((item, i) => `
+            <div class="question-card">
+                <span class="lvl-tag" style="background:${item.l=='خبير'?'#d63031':'#00b894'}">${item.l}</span>
+                <p style="font-weight:bold; font-size:17px; margin-top:0;">${i+1}. ${item.q}</p>
+                ${item.o.map((opt, oi) => `<div class="opt" onclick="check(this, ${oi==item.c})">${opt}</div>`).join('')}
+            </div>
+        `).join('');
     }
 
-    function loadQuestion() {
-        if(currentIdx >= database.length) {
-            document.getElementById('quiz-screen').innerHTML = "<h2 style='color:var(--gold)'>🥇 أحسنت يا بطل!</h2><p>لقد أتممت الاختبار التقني بنجاح.</p>";
-            return;
-        }
-        const item = database[currentIdx];
-        document.getElementById('q-count').innerText = `السؤال ${currentIdx + 1} من ${database.length}`;
-        document.getElementById('q-text').innerText = item.q;
-        const box = document.getElementById('opt-box');
-        box.innerHTML = "";
-        item.a.forEach((opt, i) => {
-            const d = document.createElement('div');
-            d.className = 'opt';
-            d.innerText = opt;
-            d.onclick = () => check(i);
-            box.appendChild(d);
-        });
-        document.getElementById('ex-box').style.display = 'none';
+    function check(el, ok) {
+        if(ok) { el.classList.add('correct'); alert("أحسنت يا محمد طه!"); }
+        else { el.classList.add('wrong'); alert("خطأ! راجع قسم التعليم."); }
     }
 
-    function check(i) {
-        const item = database[currentIdx];
-        const opts = document.getElementsByClassName('opt');
-        if(i === item.c) {
-            opts[i].classList.add('correct');
-            const ex = document.getElementById('ex-box');
-            ex.innerText = "💡 معلومة: " + item.e;
-            ex.style.display = 'block';
-            setTimeout(() => { currentIdx++; loadQuestion(); }, 4000);
-        } else {
-            opts[i].classList.add('wrong');
-            opts[item.c].classList.add('correct');
-            alert("إجابة خاطئة! راجع المعلومة الظاهرة.");
-        }
+    function start() {
+        document.getElementById('act-screen').style.display = 'none';
+        document.getElementById('main-app').style.display = 'block';
+        load('bat', document.querySelector('.tab'));
     }
 
-    if(localStorage.getItem('gold_activated') === 'true') { startApp(); }
+    if(localStorage.getItem('unlocked_50') === 'true') start();
 </script>
 
 </body>
