@@ -3,113 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>موسوعة المحترف للدراجات الكهربائية</title>
+    <title>موسوعة المحترف - الإصدار الذهبي</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
-        :root { --primary: #2c3e50; --accent: #27ae60; --danger: #e74c3c; --bg: #f8f9fa; }
-        body { font-family: 'Cairo', sans-serif; background: var(--bg); margin: 0; padding: 20px; color: var(--primary); }
-        .container { width: 100%; max-width: 700px; margin: auto; background: white; border-radius: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; }
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
         
-        /* شاشة التفعيل الاحترافية */
-        .activation-header { background: var(--primary); color: white; padding: 30px; text-align: center; }
-        .price-tag { background: var(--accent); color: white; padding: 5px 15px; border-radius: 50px; font-size: 14px; }
-        .device-id-box { background: #fdf2f2; border: 2px dashed var(--danger); padding: 20px; border-radius: 15px; margin: 20px; text-align: center; }
-        .device-id-box span { font-size: 32px; font-weight: bold; color: var(--danger); letter-spacing: 2px; }
-        
-        /* الواجهة الرئيسية */
-        #app-content { display: none; }
-        .app-header { background: var(--primary); color: white; padding: 20px; text-align: center; position: sticky; top: 0; z-index: 100; }
-        .search-container { padding: 15px; background: #eee; }
-        .search-input { width: 100%; padding: 15px; border: none; border-radius: 12px; font-size: 16px; font-family: 'Cairo'; box-sizing: border-box; }
-        
-        /* البطاقات */
-        .category-title { background: #e9ecef; padding: 10px 20px; font-weight: bold; font-size: 18px; border-right: 6px solid var(--accent); margin: 10px 0; }
-        .fault-card { padding: 15px 20px; border-bottom: 1px solid #eee; transition: 0.3s; }
-        .fault-card:hover { background: #f1f8f5; }
-        .fault-card strong { color: var(--primary); font-size: 16px; display: block; margin-bottom: 5px; }
-        .fault-card .solution { color: var(--accent); font-weight: bold; font-size: 15px; line-height: 1.6; }
-        .error-code { background: #34495e; color: white; padding: 2px 8px; border-radius: 5px; font-size: 12px; margin-left: 8px; }
+        :root {
+            --gold: #f1c40f;
+            --blue: #1e3c72;
+            --neon-green: #2ecc71;
+            --neon-red: #e74c3c;
+        }
 
-        /* الأزرار */
-        .btn { display: block; width: 80%; margin: 15px auto; padding: 15px; border: none; border-radius: 12px; cursor: pointer; font-size: 18px; font-weight: bold; text-decoration: none; text-align: center; transition: 0.3s; }
-        .btn-activate { background: var(--accent); color: white; }
-        .btn-whatsapp { background: #25D366; color: white; }
-        input[type="number"] { width: 80%; padding: 15px; margin: 10px auto; display: block; border: 2px solid #ddd; border-radius: 12px; text-align: center; font-size: 22px; }
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: #0a0e14;
+            color: white;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .main-card {
+            width: 95%;
+            max-width: 600px;
+            background: linear-gradient(145deg, #16213e, #0f3460);
+            border: 2px solid var(--gold);
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 0 40px rgba(241, 196, 15, 0.2);
+            text-align: center;
+        }
+
+        /* شاشة التفعيل */
+        .activation-title { font-size: 28px; font-weight: 900; color: var(--gold); text-shadow: 0 0 10px rgba(241, 196, 15, 0.5); }
+        .price-badge { background: var(--neon-green); color: black; padding: 5px 20px; border-radius: 50px; font-weight: bold; font-size: 14px; }
+        .device-id-container { margin: 25px 0; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); }
+        .device-id { font-size: 35px; color: var(--neon-red); font-weight: 900; letter-spacing: 5px; }
+        
+        input { width: 90%; padding: 15px; border-radius: 15px; border: 2px solid var(--gold); background: #0a0e14; color: white; font-size: 20px; text-align: center; margin-bottom: 20px; outline: none; }
+        
+        .btn { width: 100%; padding: 18px; border-radius: 50px; border: none; font-size: 20px; font-weight: bold; cursor: pointer; transition: 0.4s; margin-top: 10px; display: block; text-decoration: none; }
+        .btn-gold { background: var(--gold); color: black; box-shadow: 0 5px 15px rgba(241, 196, 15, 0.4); }
+        .btn-gold:hover { transform: scale(1.05); background: #fff; }
+        .btn-wa { background: #25D366; color: white; margin-top: 20px; font-size: 16px; }
+
+        /* شاشة الأسئلة */
+        #quiz-screen { display: none; }
+        .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
+        .question-text { font-size: 22px; font-weight: 700; line-height: 1.5; margin-bottom: 30px; color: #fff; }
+        .options-container { display: grid; grid-template-columns: 1fr; gap: 15px; }
+        .opt { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); padding: 15px; border-radius: 15px; cursor: pointer; transition: 0.3s; text-align: right; position: relative; overflow: hidden; }
+        .opt:hover { background: rgba(255,255,255,0.1); border-color: var(--gold); }
+        .opt.correct { background: var(--neon-green) !important; color: black; font-weight: bold; }
+        .opt.wrong { background: var(--neon-red) !important; color: white; }
+        
+        .explanation { display: none; margin-top: 20px; padding: 15px; background: rgba(46, 204, 113, 0.1); border-radius: 15px; border-right: 5px solid var(--neon-green); font-size: 14px; text-align: right; }
     </style>
 </head>
 <body>
 
-<div class="container" id="activation-box">
-    <div class="activation-header">
-        <h2>🛡️ نظام التفعيل الذكي</h2>
-        <span class="price-tag">رسوم الاشتراك: 6,000 ج.س</span>
+<div class="main-card" id="activation-box">
+    <div class="activation-title">👑 موسوعة المحترف الذهبية</div>
+    <span class="price-badge">رسوم التفعيل: 6,000 جنيه</span>
+    
+    <div class="device-id-container">
+        <p style="margin:0; font-size:14px; opacity:0.7;">رقمك التعريفي الفريد</p>
+        <div class="device-id" id="display-id">----</div>
     </div>
-    <div class="device-id-box">
-        <p>الرقم التعريفي لجهازك (أرسله للمسؤول):</p>
-        <span id="dId">----</span>
-    </div>
-    <input type="number" id="inputCode" placeholder="أدخل كود التفعيل">
-    <button class="btn btn-activate" onclick="check()">تفعيل الموسوعة</button>
-    <a id="waLink" class="btn btn-whatsapp" target="_blank">طلب الكود (واتساب)</a>
+
+    <input type="number" id="code-input" placeholder="أدخل كود التفعيل الملكي">
+    <button class="btn btn-gold" onclick="verify()">دخول الموسوعة 🔓</button>
+    
+    <a id="wa-btn" class="btn btn-wa" target="_blank">طلب الكود من محمد طه (واتساب) 💬</a>
 </div>
 
-<div id="app-content">
-    <div class="app-header">
-        <h3>🛠️ موسوعة أعطال الدراجات الكهربائية</h3>
+<div class="main-card" id="quiz-screen">
+    <div class="q-header">
+        <span id="q-count" style="color:var(--gold)">السؤال 1 من 10</span>
+        <span id="score" style="font-weight:bold">🏆 خبير</span>
     </div>
-    <div class="search-container">
-        <input type="text" id="srch" class="search-input" onkeyup="filter()" placeholder="ابحث برقم العطل أو اسم الجزء...">
-    </div>
-    
-    <div id="list">
-        <div class="category-title">📟 قسم شاشة العرض (Error Codes)</div>
-        <div class="fault-card"><strong><span class="error-code">E01</span> عطل في المحرك (Motor Error)</strong><span class="solution">الحل: فحص أسلاك الفازات الثلاثة أو فحص حساسات الهال (Hall Sensors).</span></div>
-        <div class="fault-card"><strong><span class="error-code">E02</span> عطل في مقبض السرعة (Throttle)</strong><span class="solution">الحل: تأكد من توصيل أسلاك المقبض أو استبداله (التماس داخلي).</span></div>
-        <div class="fault-card"><strong><span class="error-code">E03</span> عطل في الكنترول (Controller Error)</strong><span class="solution">الحل: فحص ترانزستورات الموسفت داخل الكنترول أو إعادة ضبط المصنع.</span></div>
-        <div class="fault-card"><strong><span class="error-code">E04</span> الجهد منخفض جداً (Low Voltage)</strong><span class="solution">الحل: اشحن البطارية فوراً، إذا استمر العطل فالبطارية تالفة.</span></div>
-        <div class="fault-card"><strong><span class="error-code">E05</span> عطل في حساس الفرامل (Brake Lever)</strong><span class="solution">الحل: تأكد من رجوع مقبض الفرامل لمكانه، الحساس يقطع الكهرباء عن الموتور.</span></div>
-
-        <div class="category-title">🔋 قسم البطارية والطاقة</div>
-        <div class="fault-card"><strong>1. البطارية تعطي 48 فولت ولكن الموتور لا يتحرك</strong><span class="solution">الحل: البطارية "كاذبة"؛ الجهد موجود لكن الأمبير مفقود. افحص الخلايا تحت الحمل.</span></div>
-        <div class="fault-card"><strong>2. انقطاع الكهرباء فجأة عند الوصول لسرعة 20 كم/س</strong><span class="solution">الحل: نظام الـ BMS في البطارية يفصل الكهرباء بسبب خلية ضعيفة لا تتحمل السحب.</span></div>
-        <div class="fault-card"><strong>3. سخونة مفرطة في أسلاك البطارية</strong><span class="solution">الحل: الأسلاك غير كافية لتحمل الأمبير، أو هناك ارتخاء في فيشة التوصيل (الكونكتر).</span></div>
-        
-        <div class="category-title">⚙️ قسم الموتور (Brushless Hub)</div>
-        <div class="fault-card"><strong>4. سماع صوت طحن أو احتكاك معدني داخل الموتور</strong><span class="solution">الحل: تلف البلي الداخلي (Bearings) أو دخول ماء أدى لصدأ المغناطيسات.</span></div>
-        <div class="fault-card"><strong>5. الموتور يدور عكس الاتجاه</strong><span class="solution">الحل: قم بتبديل سلكين من أسلاك الفازات (الأزرق والأخضر مثلاً) أو عبر برمجة الكنترول.</span></div>
-    </div>
-    
-    <p style="text-align:center; padding: 20px; color: #888;">محمد طه عطا المنان - دكان الإدارة الاحترافي © 2026</p>
+    <div class="question-text" id="q-text">جارِ تحميل السؤال...</div>
+    <div class="options-container" id="opt-box"></div>
+    <div class="explanation" id="ex-box"></div>
 </div>
 
 <script>
-    // نظام التفعيل الرقمي (ID + 1998)
-    const dId = Math.floor(Math.random() * 8999) + 1000;
-    document.getElementById('dId').innerText = dId;
-    document.getElementById('waLink').href = `https://wa.me/249999240574?text=${encodeURIComponent('أريد تفعيل موسوعة المحترف بـ 6000 ج. الرقم التعريفي هو: ' + dId)}`;
+    // 1. منطق التفعيل (ID + 1998)
+    const deviceId = Math.floor(Math.random() * 8999) + 1000;
+    document.getElementById('display-id').innerText = deviceId;
+    document.getElementById('wa-btn').href = `https://wa.me/249999240574?text=${encodeURIComponent('أريد تفعيل النسخة الذهبية للموسوعة. الرقم: ' + deviceId)}`;
 
-    function check() {
-        if(parseInt(document.getElementById('inputCode').value) === (dId + 1998)) {
-            localStorage.setItem('pro_ebike_6k', 'true');
-            launch();
-        } else { alert("عذراً، الكود غير صحيح."); }
+    function verify() {
+        const val = document.getElementById('code-input').value;
+        if(parseInt(val) === (deviceId + 1998)) {
+            localStorage.setItem('gold_activated', 'true');
+            startApp();
+        } else { alert("الكود غير صحيح يا هندسة!"); }
     }
 
-    function launch() {
+    // 2. الأسئلة الفعلية التفاعلية
+    const database = [
+        { 
+            q: "لماذا يسخن الكنترول بشكل مفرط رغم أن السرعة عادية؟", 
+            a: ["تلف البطارية", "ضعف المغناطيس في الموتور", "ارتخاء مسامير أسلاك الفازات", "المصباح محروق"], 
+            c: 2, 
+            e: "ارتخاء الأسلاك يسبب مقاومة كهربائية عالية ترفع حرارة الكنترول وقد تؤدي لاحتراقه." 
+        },
+        { 
+            q: "ما هو الجهد الحقيقي لخلية الليثيوم الواحدة (3.7v) عند الشحن الكامل؟", 
+            a: ["3.7 فولت", "4.0 فولت", "4.2 فولت", "5.0 فولت"], 
+            c: 2, 
+            e: "خلية الليثيوم تشحن حتى 4.2 فولت كحد أقصى، وأي زيادة تسبب انفجارها." 
+        },
+        { 
+            q: "الموتور يصدر 'رجة' قوية عند البداية ثم يعمل بشكل طبيعي، أين الخلل؟", 
+            a: ["البطارية ضعيفة", "أحد حساسات الهال تالف جزئياً", "الفرامل مشدودة", "سلك المقبض مقطوع"], 
+            c: 1, 
+            e: "الرجة تعني أن الكنترول يجد صعوبة في معرفة وضعية الموتور بسبب حساس هال ضعيف." 
+        },
+        { 
+            q: "ما وظيفة سلك (Signal) في مقبض السرعة؟", 
+            a: ["تزويد الكهرباء 48v", "إرسال جهد متغير من 1v إلى 4.2v", "تبريد المقبض", "تفعيل الإنذار"], 
+            c: 1, 
+            e: "المقبض يرسل إشارة فولتية متغيرة للكنترول ليحدد سرعة الموتور المطلوبة." 
+        },
+        { 
+            q: "عند فحص الموتور بجهاز الأفوميتر، ماذا تعطي القراءة بين الفازات؟", 
+            a: ["قراءة مفتوحة (Open)", "مقاومة صفرية تماماً", "مقاومة متساوية ومنخفضة جداً", "100 أوم"], 
+            c: 2, 
+            e: "الفازات يجب أن تكون متوازنة في المقاومة، أي فرق كبير يعني احتراق الملفات." 
+        }
+    ];
+
+    let currentIdx = 0;
+
+    function startApp() {
         document.getElementById('activation-box').style.display = 'none';
-        document.getElementById('app-content').style.display = 'block';
-        window.scrollTo(0,0);
+        document.getElementById('quiz-screen').style.display = 'block';
+        loadQuestion();
     }
 
-    function filter() {
-        let q = document.getElementById('srch').value.toLowerCase();
-        let cards = document.getElementsByClassName('fault-card');
-        for (let c of cards) {
-            c.style.display = c.innerText.toLowerCase().includes(q) ? "block" : "none";
+    function loadQuestion() {
+        if(currentIdx >= database.length) {
+            document.getElementById('quiz-screen').innerHTML = "<h2 style='color:var(--gold)'>🥇 أحسنت يا بطل!</h2><p>لقد أتممت الاختبار التقني بنجاح.</p>";
+            return;
+        }
+        const item = database[currentIdx];
+        document.getElementById('q-count').innerText = `السؤال ${currentIdx + 1} من ${database.length}`;
+        document.getElementById('q-text').innerText = item.q;
+        const box = document.getElementById('opt-box');
+        box.innerHTML = "";
+        item.a.forEach((opt, i) => {
+            const d = document.createElement('div');
+            d.className = 'opt';
+            d.innerText = opt;
+            d.onclick = () => check(i);
+            box.appendChild(d);
+        });
+        document.getElementById('ex-box').style.display = 'none';
+    }
+
+    function check(i) {
+        const item = database[currentIdx];
+        const opts = document.getElementsByClassName('opt');
+        if(i === item.c) {
+            opts[i].classList.add('correct');
+            const ex = document.getElementById('ex-box');
+            ex.innerText = "💡 معلومة: " + item.e;
+            ex.style.display = 'block';
+            setTimeout(() => { currentIdx++; loadQuestion(); }, 4000);
+        } else {
+            opts[i].classList.add('wrong');
+            opts[item.c].classList.add('correct');
+            alert("إجابة خاطئة! راجع المعلومة الظاهرة.");
         }
     }
 
-    if(localStorage.getItem('pro_ebike_6k') === 'true') { launch(); }
+    if(localStorage.getItem('gold_activated') === 'true') { startApp(); }
 </script>
 
 </body>
