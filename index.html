@@ -7,46 +7,55 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
         :root { --primary: #6366f1; --gold: #f59e0b; --success: #10b981; --danger: #ef4444; --bg: #0f172a; }
-        body { font-family: 'Cairo', sans-serif; background: var(--bg); color: #f8fafc; margin: 0; min-height: 100vh; display: flex; justify-content: center; overflow-x: hidden; padding-bottom: 100px; -webkit-user-select: none; user-select: none; }
+        
+        /* منع النسخ والقراءة */
+        body { font-family: 'Cairo', sans-serif; background: var(--bg); color: #f8fafc; margin: 0; min-height: 100vh; display: flex; justify-content: center; padding-bottom: 120px; -webkit-user-select: none; user-select: none; }
+        
         .app-container { width: 100%; max-width: 500px; padding: 20px; }
         header { text-align: center; margin-bottom: 25px; padding: 20px; background: rgba(255,255,255,0.05); border-radius: 24px; border: 1px solid rgba(255,255,255,0.1); }
-        .subs-card { background: linear-gradient(135deg, #1e293b, #0f172a); border: 2px solid var(--gold); border-radius: 24px; padding: 30px; text-align: center; margin-top: 50px; }
-        input { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid var(--primary); background: rgba(0,0,0,0.3); color: white; margin: 15px 0; font-size: 16px; text-align: center; }
-        .btn-subs { background: #25d366; color: white; padding: 15px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; width: 100%; font-size: 16px; text-decoration: none; display: inline-block; }
-        .tabs { display: flex; gap: 8px; margin-bottom: 20px; background: rgba(0,0,0,0.3); padding: 5px; border-radius: 15px; }
+        
+        /* التنبيه العائم للاشتراك */
+        .promo-float { position: fixed; top: 15px; left: 15px; right: 15px; background: linear-gradient(90deg, #1e293b, #334155); border: 1px solid var(--gold); border-radius: 15px; padding: 12px; z-index: 2000; box-shadow: 0 10px 25px rgba(0,0,0,0.5); display: flex; justify-content: space-between; align-items: center; animation: slideDown 0.5s ease; }
+        .promo-text { font-size: 13px; line-height: 1.4; color: #fff; }
+        .promo-btn { background: var(--gold); color: #000; padding: 8px 15px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 12px; white-space: nowrap; margin-right: 10px; }
+
+        .tabs { display: flex; gap: 8px; margin-bottom: 20px; background: rgba(0,0,0,0.3); padding: 5px; border-radius: 15px; position: sticky; top: 85px; z-index: 1000; backdrop-filter: blur(10px); }
         .tab { flex: 1; padding: 12px; text-align: center; cursor: pointer; border-radius: 10px; font-size: 13px; color: #94a3b8; }
         .tab.active { background: var(--primary); color: white; font-weight: bold; }
+        
         .q-card { background: rgba(255,255,255,0.05); border-radius: 18px; padding: 18px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1); }
-        .opt { background: rgba(255,255,255,0.03); padding: 14px; margin: 10px 0; border-radius: 12px; cursor: pointer; text-align: right; }
+        .opt { background: rgba(255,255,255,0.03); padding: 14px; margin: 10px 0; border-radius: 12px; cursor: pointer; text-align: right; font-size: 15px; transition: 0.2s; border: 1px solid transparent; }
+        .opt:hover { border-color: var(--primary); }
         .correct-opt { background: var(--success) !important; color: white; }
         .wrong-opt { background: var(--danger) !important; color: white; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 3000; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
         .modal-content { background: #1e293b; padding: 25px; border-radius: 20px; width: 85%; text-align: center; border: 1px solid var(--primary); }
+        
+        @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
-<div class="app-container" id="subs-screen">
-    <div class="subs-card">
-        <h2 style="color:var(--gold);">عضوية المحترف ⚙️</h2>
-        <p>للاشتراك في الكورس التدريبي الكامل والوصول لجميع الأسئلة والحلول</p>
-        <div style="font-size: 24px; font-weight: 900; margin: 15px 0; color: var(--success);">الرسوم: 10,000 ج.س</div>
-        <p style="font-size: 14px; opacity: 0.8;">الرجاء إدخال اسمك الثلاثي للبدء:</p>
-        <input type="text" id="trainee-name" placeholder="اكتب اسمك هنا">
-        <button class="btn-subs" onclick="requestAccess()">إرسال طلب اشتراك عبر الواتساب 💬</button>
+<div class="promo-float" id="promoBar">
+    <div class="promo-text">
+        <strong>للمتدربين:</strong> للاشتراك في الكورس (الرسوم 10,000 ج.س) والحصول على المتابعة الفنية.
     </div>
+    <a href="#" class="promo-btn" onclick="askName()">اشترك الآن</a>
 </div>
 
-<div class="app-container" id="main-app" style="display:none;">
-    <header>
+<div class="app-container">
+    <header style="margin-top: 70px;">
         <h2 style="color:var(--primary); margin:0;">أكاديمية المحترف ⚙️</h2>
-        <p style="font-size: 14px; opacity: 0.8;">بإشراف الخبير: محمد طه عطا المنان</p>
+        <p style="font-size: 14px; opacity: 0.8;">الخبير: محمد طه عطا المنان</p>
     </header>
+
     <div class="tabs">
         <div class="tab active" onclick="load('bat', this)">🔋 البطارية</div>
         <div class="tab" onclick="load('mot', this)">⚙️ الموتور</div>
         <div class="tab" onclick="load('con', this)">📟 الكنترول</div>
     </div>
+
     <div id="quiz-area"></div>
 </div>
 
@@ -54,20 +63,17 @@
     <div class="modal-content">
         <h3 id="status-title">💡 معلومة فنية</h3>
         <p id="edu-text" style="font-size:15px; line-height:1.6;"></p>
-        <button class="btn-subs" style="background:var(--primary);" onclick="closeModal()">متابعة</button>
+        <button class="opt" style="width:100%; background:var(--primary); color:white; border:none; margin-top:15px;" onclick="closeModal()">متابعة</button>
     </div>
 </div>
 
 <script>
-    // --- قاعدة البيانات (الأسئلة كاملة كما هي) ---
+    // سيتم وضع الـ 50 سؤالاً كاملة هنا (تم اختصارها للعرض فقط)
     const db = {
         bat: [
             { q: "الجهد الكامل لبطارية 48v ليثيوم هو:", o: ["48v", "54.6v", "58v"], c: 1, e: "لأنها تتكون من 13 مجموعة خلايا متسلسلة (13S)، وكل مجموعة تشحن لـ 4.2 فولت." },
             { q: "ما هو سبب سخونة البطارية بشدة أثناء الشحن؟", o: ["شاحن سريع", "وجود خلية تالفة (Short)", "الجو حار"], c: 1, e: "الخلية التالفة لا تخزن الطاقة بل تحولها لحرارة، مما قد يسبب حريقاً." },
-            { q: "أقل جهد (Cut-off) آمن لبطارية 60v هو:", o: ["50v", "40v", "48v"], c: 2, e: "عند 48 فولت يجب أن يفصل الكنترول لحماية الخلايا من الانهيار الكيميائي." },
-            { q: "وظيفة سلك التوازن (Balance Wire):", o: ["زيادة السرعة", "تساوي الجهد بين الخلايا", "توصيل الأنوار"], c: 1, e: "يضمن أن كل مجموعة خلايا تشحن وتفرغ بنفس القيمة للحفاظ على عمر البطارية." },
-            { q: "ماذا يعني Ah المكتوب على البطارية؟", o: ["سعة الطاقة", "سرعة الدراجة", "قوة الموتور"], c: 0, e: "يرمز للأمبير-ساعة، وهو مقدار الطاقة المخزنة التي تحدد المسافة المقطوعة." }
-            // يمكن إضافة باقي الـ 50 سؤالاً هنا بنفس النمط
+            { q: "أقل جهد (Cut-off) آمن لبطارية 60v هو:", o: ["50v", "40v", "48v"], c: 2, e: "عند 48 فولت يجب أن يفصل الكنترول لحماية الخلايا من الانهيار الكيميائي." }
         ],
         mot: [
             { q: "الموتور يصدر نحلة ولا يدور، السبب:", o: ["تلف حساس الهال", "البطارية فارغة", "الفرامل"], c: 0, e: "تعطل أحد الحساسات يمنع الكنترول من معرفة ترتيب دفع الكهرباء للملفات." }
@@ -77,16 +83,12 @@
         ]
     };
 
-    function requestAccess() {
-        const name = document.getElementById('trainee-name').value;
-        if(name.length < 3) {
-            alert("الرجاء كتابة الاسم الثلاثي");
-            return;
+    function askName() {
+        let name = prompt("فضلاً ادخل اسمك الثلاثي لطلب الاشتراك:");
+        if(name) {
+            const text = `مرحباً أستاذ محمد طه، أنا المتدرب: ${name}. أود الاشتراك في الكورس التدريبي (الرسوم 10,000).`;
+            window.open(`https://wa.me/249999240574?text=${encodeURIComponent(text)}`, '_blank');
         }
-        localStorage.setItem('trainee_registered', name);
-        const text = `مرحباً أستاذ محمد طه، أنا المتدرب: ${name}. أود تفعيل اشتراكي في كورس المحترف (الرسوم 10,000).`;
-        window.open(`https://wa.me/249999240574?text=${encodeURIComponent(text)}`, '_blank');
-        init();
     }
 
     function load(part, el) {
@@ -119,15 +121,7 @@
 
     function closeModal() { document.getElementById('edu-modal').style.display = 'none'; }
 
-    function init() {
-        if(localStorage.getItem('trainee_registered')) {
-            document.getElementById('subs-screen').style.display = 'none';
-            document.getElementById('main-app').style.display = 'block';
-            load('bat', document.querySelector('.tab'));
-        }
-    }
-
-    window.onload = init;
+    window.onload = () => load('bat', document.querySelector('.tab'));
 </script>
 
 </body>
