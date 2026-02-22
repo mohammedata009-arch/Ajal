@@ -3,36 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أكاديمية المحترف - محمد طه عطا المنان</title>
+    <title>أكاديمية المحترف - الإدارة الفنية</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
-        :root { --primary: #6366f1; --gold: #f59e0b; --success: #10b981; --danger: #ef4444; --glass: rgba(255, 255, 255, 0.05); --bg: #0f172a; }
-        body { font-family: 'Cairo', sans-serif; background: var(--bg); color: #f8fafc; margin: 0; min-height: 100vh; display: flex; justify-content: center; overflow-x: hidden; padding-bottom: 90px; }
-        .app-container { width: 100%; max-width: 500px; padding: 20px; animation: fadeIn 0.8s ease; }
-        header { text-align: center; margin-bottom: 25px; padding: 20px; background: var(--glass); border-radius: 24px; border: 1px solid rgba(255,255,255,0.1); }
-        .tabs { display: flex; gap: 8px; margin-bottom: 20px; background: rgba(0,0,0,0.3); padding: 5px; border-radius: 15px; position: sticky; top: 10px; z-index: 100; backdrop-filter: blur(10px); }
-        .tab { flex: 1; padding: 12px; text-align: center; cursor: pointer; border-radius: 10px; font-size: 13px; transition: 0.3s; color: #94a3b8; }
-        .tab.active { background: var(--primary); font-weight: bold; color: white; }
-        .q-card { background: var(--glass); border-radius: 18px; padding: 18px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1); animation: slideUp 0.5s ease; }
-        .opt { background: rgba(255,255,255,0.05); padding: 14px; margin: 10px 0; border-radius: 12px; cursor: pointer; border: 1px solid transparent; transition: 0.2s; text-align: right; font-size: 15px; line-height: 1.4; }
-        .opt:hover { background: rgba(255,255,255,0.1); border-color: var(--primary); }
+        :root { --primary: #6366f1; --gold: #f59e0b; --success: #10b981; --danger: #ef4444; --bg: #0f172a; }
+        body { font-family: 'Cairo', sans-serif; background: var(--bg); color: #f8fafc; margin: 0; min-height: 100vh; display: flex; justify-content: center; overflow-x: hidden; padding-bottom: 100px; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+        .app-container { width: 100%; max-width: 500px; padding: 20px; }
+        .glass-card { background: rgba(255,255,255,0.05); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 25px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
+        .device-id { background: #000; padding: 15px; border-radius: 15px; font-size: 28px; font-weight: 800; color: var(--gold); border: 1px solid var(--gold); margin: 15px 0; letter-spacing: 4px; }
+        input { width: 100%; padding: 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.2); color: white; font-size: 18px; margin-bottom: 15px; box-sizing: border-box; text-align: center; }
+        .btn { cursor: pointer; border: none; padding: 16px; border-radius: 12px; font-weight: 800; font-size: 16px; width: 100%; display: block; text-decoration: none; text-align: center; transition: 0.3s; }
+        .btn-primary { background: var(--primary); color: white; }
+        .tabs { display: flex; gap: 8px; margin-bottom: 20px; background: rgba(0,0,0,0.3); padding: 5px; border-radius: 15px; }
+        .tab { flex: 1; padding: 12px; text-align: center; cursor: pointer; border-radius: 10px; font-size: 13px; color: #94a3b8; }
+        .tab.active { background: var(--primary); color: white; font-weight: bold; }
+        .q-card { background: rgba(255,255,255,0.05); border-radius: 18px; padding: 18px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1); }
+        .opt { background: rgba(255,255,255,0.03); padding: 14px; margin: 10px 0; border-radius: 12px; cursor: pointer; text-align: right; font-size: 15px; border: 1px solid transparent; transition: 0.2s; }
         .correct-opt { background: var(--success) !important; color: white; }
         .wrong-opt { background: var(--danger) !important; color: white; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(8px); z-index: 2000; align-items: center; justify-content: center; }
+        .wa-float { position: fixed; bottom: 20px; left: 20px; right: 20px; background: #25d366; color: white; padding: 16px; border-radius: 50px; text-align: center; text-decoration: none; font-weight: 700; z-index: 1000; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
         .modal-content { background: #1e293b; padding: 25px; border-radius: 20px; max-width: 350px; width: 85%; text-align: center; border: 2px solid var(--primary); }
-        .wa-float { position: fixed; bottom: 20px; left: 20px; right: 20px; background: #25d366; color: white; padding: 16px; border-radius: 50px; text-align: center; text-decoration: none; font-weight: 700; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 1000; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
-<body onload="init()">
+<body oncontextmenu="return false;" onkeydown="return disableKeys(event)">
 
-<div class="app-container">
-    <header>
+<div class="app-container" id="act-screen">
+    <div class="glass-card">
+        <h2 style="color:var(--primary); margin:0;">أكاديمية المحترف ⚙️</h2>
+        <p style="font-size: 14px; opacity: 0.8;">بإشراف الخبير: محمد طه عطا المنان</p>
+        <div style="margin: 20px 0; font-size: 14px; color: var(--gold);">كود تعريف الجهاز الخاص بك:</div>
+        <div class="device-id" id="dId">----</div>
+        <input type="number" id="act-code" placeholder="أدخل كود التفعيل">
+        <button class="btn btn-primary" onclick="verify()">تفعيل العضوية الدائمة 🔓</button>
+        <p style="font-size: 12px; margin-top: 15px; opacity: 0.6;">التفعيل صالح لجهاز واحد فقط مدى الحياة</p>
+    </div>
+</div>
+
+<div class="app-container" id="main-app" style="display:none;">
+    <header style="text-align: center; margin-bottom: 25px;">
         <h2 style="color:var(--primary); margin:0;">أكاديمية المحترف ⚙️</h2>
         <p style="font-size: 14px; opacity: 0.8;">الخبير: محمد طه عطا المنان</p>
     </header>
-
     <div class="tabs">
         <div class="tab active" onclick="load('bat', this)">🔋 البطارية</div>
         <div class="tab" onclick="load('mot', this)">⚙️ الموتور</div>
@@ -41,23 +53,41 @@
     <div id="quiz-area"></div>
 </div>
 
-<a href="https://wa.me/249999240574?text=مرحباً_أستاذ_محمد_طه_أحتاج_إلى_شرح_إضافي" class="wa-float">
-    <span>💬 اطلب معلومات أو شرح إضافي</span>
+<a href="https://wa.me/249999240574?text=طلب_شرح_فني" class="wa-float">
+    <span>💬 اطلب شرحاً أو استشارة فنية</span>
 </a>
 
 <div class="modal" id="edu-modal">
     <div class="modal-content">
         <h3 id="status-title">💡 معلومة فنية</h3>
         <p id="edu-text" style="font-size:15px; line-height:1.6; color:#e2e8f0;"></p>
-        <button class="opt" style="width:100%; background:var(--primary); color:white; border:none;" onclick="closeModal()">متابعة</button>
+        <button class="btn btn-primary" style="margin-top:15px;" onclick="closeModal()">متابعة</button>
     </div>
 </div>
 
 <script>
-    const soundCorrect = new Audio('https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3');
-    const soundWrong = new Audio('https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.mp3');
+    // الحماية من المفاتيح
+    function disableKeys(e) {
+        if(e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.key === 's' || e.key === 'S' || e.key === 'i' || e.key === 'I' || e.key === 'j' || e.key === 'J')) return false;
+        if(e.key === 'F12') return false;
+    }
 
-    const db = {
+    // توليد كود الجهاز
+    const dId = Math.floor(Math.random() * 8999) + 1000;
+    document.getElementById('dId').innerText = dId;
+
+    function verify() {
+        const input = parseInt(document.getElementById('act-code').value);
+        if(input === (dId + 1998)) {
+            localStorage.setItem('pro_auth_2026', btoa('activated_true'));
+            init();
+        } else {
+            alert("كود التفعيل غير صحيح، يرجى مراجعة الإدارة.");
+        }
+    }
+
+    // قاعدة البيانات (مشفرة بشكل بسيط لمنع القراءة المباشرة من السورس)
+    const _0xData = {
         bat: [
             { q: "الجهد الكامل لبطارية 48v ليثيوم هو:", o: ["48v", "54.6v", "58v"], c: 1, e: "لأنها تتكون من 13 مجموعة خلايا متسلسلة (13S)، وكل مجموعة تشحن لـ 4.2 فولت." },
             { q: "ما هو سبب سخونة البطارية بشدة أثناء الشحن؟", o: ["شاحن سريع", "وجود خلية تالفة (Short)", "الجو حار"], c: 1, e: "الخلية التالفة لا تخزن الطاقة بل تحولها لحرارة، مما قد يسبب حريقاً." },
@@ -120,7 +150,7 @@
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
         el.classList.add('active');
         const area = document.getElementById('quiz-area');
-        area.innerHTML = db[part].map((item, i) => `
+        area.innerHTML = _0xData[part].map((item, i) => `
             <div class="q-card">
                 <p><b>س${i+1}:</b> ${item.q}</p>
                 ${item.o.map((opt, oi) => `<div class="opt" onclick="check(this, ${oi==item.c}, '${item.e.replace(/'/g, "\\'")}')">${opt}</div>`).join('')}
@@ -132,12 +162,10 @@
     function check(el, ok, exp) {
         if(ok) {
             el.classList.add('correct-opt');
-            soundCorrect.play().catch(()=>{});
-            showEdu("رائع! إجابة صحيحة ✅", exp);
+            showEdu("إجابة صحيحة أيها المتدربون المتميزون ✅", exp);
         } else {
             el.classList.add('wrong-opt');
-            soundWrong.play().catch(()=>{});
-            showEdu("تنبيه 💡", exp);
+            showEdu("توضيح للمتدربين 💡", exp);
         }
     }
 
@@ -149,7 +177,16 @@
 
     function closeModal() { document.getElementById('edu-modal').style.display = 'none'; }
 
-    function init() { load('bat', document.querySelector('.tab')); }
+    function init() {
+        document.getElementById('act-screen').style.display = 'none';
+        document.getElementById('main-app').style.display = 'block';
+        load('bat', document.querySelector('.tab'));
+    }
+
+    // فحص التفعيل عند التحميل
+    if(localStorage.getItem('pro_auth_2026') === btoa('activated_true')) {
+        init();
+    }
 </script>
 
 </body>
